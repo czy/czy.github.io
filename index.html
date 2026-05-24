@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>五行八卦图说</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Ma+Shan+Zheng&display=swap');
+
+:root {
+  --ink: #1a1a1a;
+  --parchment: #f5f0e8;
+  --parchment-dark: #e8dcc8;
+  --cinnabar: #c23a2e;
+  --gold: #b8963e;
+  --jade: #2d7d6a;
+  --deep-blue: #1e3a5f;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Serif SC', 'SimSun', serif;
+  background: var(--parchment);
+  color: var(--ink);
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(184,150,62,0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(194,58,46,0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--parchment-dark); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; }
+
+/* Navigation */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  border-bottom: 2px solid var(--gold);
+  transition: all 0.3s ease;
+}
+nav.scrolled { box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+.nav-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 60px;
+}
+.nav-title {
+  font-family: 'Ma Shan Zheng', cursive;
+  color: var(--gold); font-size: 1.5rem; letter-spacing: 0.3em;
+  text-shadow: 0 0 10px rgba(184,150,62,0.3);
+}
+.nav-links { display: flex; gap: 0.5rem; list-style: none; }
+.nav-links a {
+  color: var(--parchment); text-decoration: none;
+  padding: 0.4rem 1rem; font-size: 0.9rem; border-radius: 4px;
+  transition: all 0.3s; letter-spacing: 0.1em;
+}
+.nav-links a:hover, .nav-links a.active {
+  color: var(--gold); background: rgba(184,150,62,0.15);
+}
+.nav-toggle {
+  display: none; background: none; border: none;
+  color: var(--gold); font-size: 1.5rem; cursor: pointer; padding: 0.3rem;
+}
+
+/* Hero */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  position: relative;
+  background:
+    radial-gradient(ellipse at center, rgba(184,150,62,0.08) 0%, transparent 60%),
+    linear-gradient(180deg, #1a1a1a 0%, #2d2d2d 40%, #1a1a1a 100%);
+  overflow: hidden;
+}
+.hero-bg-pattern {
+  position: absolute; inset: 0; opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='%23b8963e' stroke-width='0.5'/%3E%3C/svg%3E");
+  animation: patternDrift 60s linear infinite;
+}
+@keyframes patternDrift { to { background-position: 60px 60px; } }
+.hero-content { position: relative; z-index: 1; }
+.hero-title {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: clamp(3rem, 8vw, 7rem); color: var(--gold);
+  letter-spacing: 0.4em;
+  text-shadow: 0 0 40px rgba(184,150,62,0.4), 0 4px 8px rgba(0,0,0,0.5);
+  margin-bottom: 0.5rem; animation: titleGlow 3s ease-in-out infinite alternate;
+}
+@keyframes titleGlow {
+  from { text-shadow: 0 0 20px rgba(184,150,62,0.2), 0 4px 8px rgba(0,0,0,0.5); }
+  to { text-shadow: 0 0 60px rgba(184,150,62,0.6), 0 4px 8px rgba(0,0,0,0.5), 0 0 100px rgba(184,150,62,0.2); }
+}
+.hero-subtitle {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(1rem, 2.5vw, 1.6rem);
+  color: rgba(245,240,232,0.6); letter-spacing: 0.6em;
+  margin-bottom: 3rem; font-weight: 400;
+}
+.hero-divider { width: 200px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 0 auto 3rem;
+}
+.hero-desc {
+  max-width: 600px; color: rgba(245,240,232,0.5);
+  font-size: 0.95rem; line-height: 2.2; letter-spacing: 0.15em;
+  margin: 0 auto 3rem;
+}
+.scroll-hint {
+  position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%);
+  color: rgba(184,150,62,0.4); font-size: 0.85rem; letter-spacing: 0.3em;
+  animation: scrollBounce 2s ease-in-out infinite;
+  display: flex; flex-direction: column; align-items: center; gap: 0.8rem;
+}
+@keyframes scrollBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.4; }
+  50% { transform: translateX(-50%) translateY(8px); opacity: 0.8; }
+}
+
+/* Sections */
+.section {
+  max-width: 1100px; margin: 0 auto;
+  padding: 6rem 2rem;
+  opacity: 0; transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.section.visible { opacity: 1; transform: translateY(0); }
+.section-header { text-align: center; margin-bottom: 4rem; }
+.section-label {
+  font-size: 0.8rem; color: var(--gold);
+  letter-spacing: 0.5em; margin-bottom: 1rem; display: block;
+}
+.section-title {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: clamp(2rem, 5vw, 3.5rem); color: var(--ink);
+  letter-spacing: 0.3em; margin-bottom: 1.5rem;
+  position: relative; display: inline-block;
+}
+.section-title::before, .section-title::after {
+  content: ''; position: absolute; top: 50%;
+  width: 60px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+.section-title::before { right: 100%; }
+.section-title::after { left: 100%; }
+.section-intro {
+  max-width: 700px; margin: 0 auto;
+  color: rgba(26,26,26,0.65); font-size: 0.95rem;
+  line-height: 2.2; letter-spacing: 0.1em;
+}
+.ornament {
+  display: flex; align-items: center; justify-content: center;
+  gap: 1rem; margin: 2rem 0; color: var(--gold);
+  opacity: 0.4; font-size: 0.8rem;
+}
+.ornament::before, .ornament::after {
+  content: ''; flex: 1; max-width: 120px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+/* Wuxing */
+.wuxing-container {
+  position: relative; display: flex;
+  justify-content: center; align-items: center;
+  min-height: 500px; margin: 3rem 0;
+}
+.wuxing-svg-wrap {
+  position: relative; width: 460px; height: 460px;
+}
+.wuxing-svg-wrap svg { width: 100%; height: 100%; }
+.element-node {
+  position: absolute; width: 90px; height: 90px;
+  border-radius: 50%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.4s;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15); z-index: 10;
+}
+.element-node:hover { transform: scale(1.15); z-index: 20; }
+.element-node .char {
+  font-family: 'Ma Shan Zheng', cursive; font-size: 2rem;
+  color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  pointer-events: none;
+}
+.element-node .label {
+  font-size: 0.6rem; color: rgba(255,255,255,0.85);
+  margin-top: 2px; letter-spacing: 0.15em; pointer-events: none;
+}
+.element-node[data-element="wood"] { background: radial-gradient(circle, #4a7c3f, #2d5a25); }
+.element-node[data-element="fire"] { background: radial-gradient(circle, #c23a2e, #8b1a1a); }
+.element-node[data-element="earth"] { background: radial-gradient(circle, #8b6914, #5a4a0e); }
+.element-node[data-element="metal"] { background: radial-gradient(circle, #c9a94e, #8b7d34); }
+.element-node[data-element="water"] { background: radial-gradient(circle, #1e3a5f, #0e1f33); }
+
+.element-detail-panel {
+  display: none; background: white; border: 1px solid var(--parchment-dark);
+  border-radius: 8px; padding: 2.5rem; margin-top: 2rem;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08); position: relative; overflow: hidden;
+}
+.element-detail-panel.active { display: block; animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.element-detail-panel::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.element-detail-panel[data-el="wood"]::before { background: #4a7c3f; }
+.element-detail-panel[data-el="fire"]::before { background: #c23a2e; }
+.element-detail-panel[data-el="earth"]::before { background: #8b6914; }
+.element-detail-panel[data-el="metal"]::before { background: #c9a94e; }
+.element-detail-panel[data-el="water"]::before { background: #1e3a5f; }
+.detail-title {
+  font-family: 'Ma Shan Zheng', cursive; font-size: 2rem;
+  letter-spacing: 0.3em; margin-bottom: 1rem;
+}
+.detail-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.2rem; margin-top: 1.5rem;
+}
+.detail-item {
+  text-align: center; padding: 1rem;
+  background: var(--parchment); border-radius: 6px;
+}
+.detail-item .tag {
+  font-size: 0.7rem; color: var(--gold);
+  letter-spacing: 0.2em; margin-bottom: 0.4rem;
+}
+.detail-item .val { font-size: 1rem; color: var(--ink); font-weight: 600; }
+
+.cycle-tables { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+.cycle-card {
+  background: white; border-radius: 8px; padding: 2rem;
+  border: 1px solid var(--parchment-dark);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.cycle-card h3 {
+  font-family: 'Ma Shan Zheng', cursive; font-size: 1.5rem;
+  letter-spacing: 0.2em; margin-bottom: 1rem; text-align: center;
+}
+.cycle-card h3.generative { color: var(--jade); }
+.cycle-card h3.overcoming { color: var(--cinnabar); }
+.cycle-chain {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0.5rem; flex-wrap: wrap; padding: 1rem 0;
+}
+.cycle-chain .node {
+  width: 48px; height: 48px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Ma Shan Zheng', cursive; font-size: 1.3rem;
+  color: white; cursor: pointer; transition: all 0.3s;
+}
+.cycle-chain .node:hover { transform: scale(1.1); }
+.cycle-chain .arrow { color: var(--gold); font-size: 1.2rem; }
+
+/* Bagua */
+.bagua-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; margin: 3rem 0; }
+.bagua-diagram { display: flex; justify-content: center; align-items: center; }
+.bagua-diagram svg { width: 380px; height: 380px; }
+.bagua-list { display: flex; flex-direction: column; gap: 0.8rem; }
+.bagua-item {
+  display: flex; align-items: center; gap: 1.2rem;
+  padding: 1.2rem 1.5rem; background: white;
+  border: 1px solid var(--parchment-dark); border-radius: 6px;
+  cursor: pointer; transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+.bagua-item:hover {
+  transform: translateX(6px);
+  border-color: var(--gold);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+.bagua-item.active {
+  border-color: var(--gold); background: linear-gradient(135deg, rgba(184,150,62,0.05), transparent);
+}
+.bagua-trigram { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 40px; }
+.bagua-trigram .line { width: 36px; height: 5px; border-radius: 1px; }
+.bagua-trigram .line.yang { background: var(--ink); }
+.bagua-trigram .line.yin {
+  background: transparent; position: relative;
+}
+.bagua-trigram .line.yin::before, .bagua-trigram .line.yin::after {
+  content: ''; position: absolute;
+  height: 5px; background: var(--ink); border-radius: 1px;
+  width: 42%;
+}
+.bagua-trigram .line.yin::before { left: 0; }
+.bagua-trigram .line.yin::after { right: 0; }
+.bagua-info h4 {
+  font-family: 'Ma Shan Zheng', cursive; font-size: 1.3rem;
+  letter-spacing: 0.15em; margin-bottom: 0.2rem;
+}
+.bagua-info p { font-size: 0.85rem; color: rgba(26,26,26,0.55); line-height: 1.6; }
+
+.bagua-detail-panel {
+  display: none; background: white; border-radius: 8px; padding: 2.5rem;
+  margin-top: 2rem; border: 1px solid var(--parchment-dark);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
+.bagua-detail-panel.active { display: block; animation: fadeIn 0.4s ease; }
+.bagua-detail-header {
+  display: flex; align-items: center; gap: 1.5rem;
+  margin-bottom: 1.5rem; padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--parchment-dark);
+}
+.bagua-detail-header .trigram-big { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.bagua-detail-header .trigram-big .line { width: 50px; height: 6px; border-radius: 1px; }
+.bagua-detail-header .trigram-big .line.yang { background: var(--ink); }
+.bagua-detail-header .trigram-big .line.yin {
+  background: transparent; position: relative;
+}
+.bagua-detail-header .trigram-big .line.yin::before,
+.bagua-detail-header .trigram-big .line.yin::after {
+  content: ''; position: absolute;
+  height: 6px; background: var(--ink); border-radius: 1px;
+  width: 42%;
+}
+.bagua-detail-header .trigram-big .line.yin::before { left: 0; }
+.bagua-detail-header .trigram-big .line.yin::after { right: 0; }
+.bagua-detail-header h3 {
+  font-family: 'Ma Shan Zheng', cursive; font-size: 2rem;
+  letter-spacing: 0.3em;
+}
+.bagua-detail-header .desc { color: rgba(26,26,26,0.55); font-size: 0.9rem; }
+
+/* Taiji */
+.taiji-wrap { display: flex; justify-content: center; margin: 2rem 0; }
+.taiji-svg { width: 160px; height: 160px; animation: taijiSpin 20s linear infinite; }
+@keyframes taijiSpin { to { transform: rotate(360deg); } }
+
+/* Sixiang */
+.sixiang-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 2rem; }
+.sixiang-card {
+  text-align: center; padding: 2rem 1.5rem; background: white;
+  border: 1px solid var(--parchment-dark); border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  transition: all 0.3s; cursor: default;
+}
+.sixiang-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
+.sixiang-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+.sixiang-card h4 {
+  font-family: 'Ma Shan Zheng', cursive; font-size: 1.5rem;
+  letter-spacing: 0.2em; margin-bottom: 0.5rem;
+}
+.sixiang-card p { font-size: 0.8rem; color: rgba(26,26,26,0.5); line-height: 1.8; }
+
+/* Correspondence table */
+.correspondence-table {
+  width: 100%; border-collapse: collapse; margin-top: 2rem;
+  background: white; border-radius: 8px; overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.correspondence-table th {
+  background: #1a1a1a; color: var(--gold); padding: 1rem;
+  font-family: 'Ma Shan Zheng', cursive; font-size: 1.1rem;
+  letter-spacing: 0.2em; font-weight: 400;
+}
+.correspondence-table td {
+  padding: 0.8rem 1rem; text-align: center;
+  border-bottom: 1px solid var(--parchment-dark);
+  font-size: 0.9rem; color: rgba(26,26,26,0.75);
+  transition: background 0.2s;
+}
+.correspondence-table tr:hover td { background: rgba(184,150,62,0.04); }
+.correspondence-table tr td:first-child {
+  font-family: 'Ma Shan Zheng', cursive; font-size: 1.2rem;
+  letter-spacing: 0.2em; color: var(--ink);
+}
+
+/* Footer */
+footer {
+  background: #1a1a1a; color: rgba(245,240,232,0.4);
+  text-align: center; padding: 3rem 2rem; font-size: 0.85rem;
+  letter-spacing: 0.15em; line-height: 2.5;
+  border-top: 2px solid var(--gold);
+}
+footer .footer-ornament { color: var(--gold); opacity: 0.3; font-size: 1.5rem; margin-bottom: 1rem; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .bagua-layout { grid-template-columns: 1fr; }
+  .sixiang-grid { grid-template-columns: repeat(2, 1fr); }
+  .cycle-tables { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
+  .nav-links.open { display: flex; position: absolute; top: 60px; left: 0; right: 0; background: #1a1a1a; flex-direction: column; padding: 1rem; border-bottom: 2px solid var(--gold); }
+  .wuxing-svg-wrap { width: 460px; height: 460px; transform: scale(0.74); transform-origin: center center; }
+  .detail-grid { grid-template-columns: repeat(2, 1fr); }
+  .correspondence-table { font-size: 0.8rem; }
+  .correspondence-table th, .correspondence-table td { padding: 0.5rem 0.3rem; }
+}
+@media (max-width: 500px) {
+  .sixiang-grid { grid-template-columns: 1fr; }
+  .wuxing-svg-wrap { width: 460px; height: 460px; transform: scale(0.6); transform-origin: center center; }
+  .element-node { width: 65px; height: 65px; }
+  .element-node .char { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <span class="nav-title">五行八卦</span>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="menu">&#9776;</button>
+    <ul class="nav-links">
+      <li><a href="#hero">首页</a></li>
+      <li><a href="#wuxing">五行</a></li>
+      <li><a href="#bagua">八卦</a></li>
+      <li><a href="#sixiang">四象</a></li>
+      <li><a href="#correspondence">万物类象</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-content">
+    <h1 class="hero-title">五行八卦</h1>
+    <p class="hero-subtitle">太 极 生 两 仪 &middot; 两 仪 生 四 象</p>
+    <div class="hero-divider"></div>
+    <p class="hero-desc">
+      五行者，金木水火土也，乃天地运行之根本。<br>
+      八卦者，乾坤震巽坎离艮兑也，乃万物变化之枢机。<br>
+      观其象，玩其辞，可以通天地之理，察万物之情。
+    </p>
+  </div>
+  <div class="scroll-hint">
+    <span>向下探索</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" style="width:20px;height:20px;stroke:rgba(184,150,62,0.4)">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</section>
+
+<!-- Wuxing Section -->
+<section class="section" id="wuxing">
+  <div class="section-header">
+    <span class="section-label">Wu Xing</span>
+    <h2 class="section-title">五 行</h2>
+    <p class="section-intro">
+      五行是中国古代哲学中的核心概念，认为宇宙间的一切事物都是由金、木、水、火、土五种基本要素构成，它们之间存在着相生相克的动态平衡关系。
+    </p>
+  </div>
+
+  <!-- Taiji -->
+  <div class="taiji-wrap">
+    <svg class="taiji-svg" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="98" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+      <path d="M100 2A98 98 0 0 1 100 198A49 49 0 0 1 100 100A49 49 0 0 0 100 2" fill="#1a1a1a"/>
+      <circle cx="100" cy="51" r="12" fill="white"/>
+      <circle cx="100" cy="51" r="4" fill="#1a1a1a"/>
+      <circle cx="100" cy="149" r="12" fill="#1a1a1a"/>
+      <circle cx="100" cy="149" r="4" fill="white"/>
+    </svg>
+  </div>
+
+  <div class="wuxing-container">
+    <div class="wuxing-svg-wrap">
+      <svg viewBox="0 0 460 460">
+        <defs>
+          <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <path d="M0,0 L8,3 L0,6" fill="#2d7d6a"/>
+          </marker>
+          <marker id="arrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <path d="M0,0 L8,3 L0,6" fill="#c23a2e"/>
+          </marker>
+        </defs>
+        <!-- Generating cycle (wood→fire→earth→metal→water) - pentagon edges -->
+        <path d="M230 95 L358 188 L309 339 L151 339 L102 188 Z" fill="none" stroke="#2d7d6a" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.35"/>
+        <text x="230" y="110" text-anchor="middle" fill="#2d7d6a" font-size="11" opacity="0.5">相生</text>
+        <!-- Overcoming cycle (wood→earth→water→fire→metal) - pentagon diagonals -->
+        <path d="M230 95 L309 339 L102 188 L358 188 L151 339 Z" fill="none" stroke="#c23a2e" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.35"/>
+        <text x="230" y="140" text-anchor="middle" fill="#c23a2e" font-size="11" opacity="0.5">相克</text>
+      </svg>
+      <!-- Five elements in regular pentagon, clockwise: wood-fire-earth-metal-water -->
+      <div class="element-node" data-element="wood" style="position:absolute;top:95px;left:230px;width:90px;height:90px;margin-left:-45px;margin-top:-45px" onclick="showElement('wood')">
+        <span class="char">木</span><span class="label">东方</span>
+      </div>
+      <div class="element-node" data-element="fire" style="position:absolute;top:188px;left:358px;width:90px;height:90px;margin-left:-45px;margin-top:-45px" onclick="showElement('fire')">
+        <span class="char">火</span><span class="label">南方</span>
+      </div>
+      <div class="element-node" data-element="earth" style="position:absolute;top:339px;left:309px;width:90px;height:90px;margin-left:-45px;margin-top:-45px" onclick="showElement('earth')">
+        <span class="char">土</span><span class="label">中央</span>
+      </div>
+      <div class="element-node" data-element="metal" style="position:absolute;top:339px;left:151px;width:90px;height:90px;margin-left:-45px;margin-top:-45px" onclick="showElement('metal')">
+        <span class="char">金</span><span class="label">西方</span>
+      </div>
+      <div class="element-node" data-element="water" style="position:absolute;top:188px;left:102px;width:90px;height:90px;margin-left:-45px;margin-top:-45px" onclick="showElement('water')">
+        <span class="char">水</span><span class="label">北方</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail panels -->
+  <div class="element-detail-panel" id="detail-wood" data-el="wood">
+    <h3 class="detail-title" style="color:#4a7c3f">木</h3>
+    <p>木曰曲直，谓树木生生不息，向上向外舒展之象。木性仁慈，主生发、条达，为万物之首。</p>
+    <div class="detail-grid">
+      <div class="detail-item"><div class="tag">方位</div><div class="val">东方</div></div>
+      <div class="detail-item"><div class="tag">季节</div><div class="val">春</div></div>
+      <div class="detail-item"><div class="tag">颜色</div><div class="val">青</div></div>
+      <div class="detail-item"><div class="tag">脏腑</div><div class="val">肝、胆</div></div>
+      <div class="detail-item"><div class="tag">情感</div><div class="val">怒</div></div>
+      <div class="detail-item"><div class="tag">五味</div><div class="val">酸</div></div>
+    </div>
+  </div>
+  <div class="element-detail-panel" id="detail-fire" data-el="fire">
+    <h3 class="detail-title" style="color:#c23a2e">火</h3>
+    <p>火曰炎上，谓火热炎烧，向上升腾之象。火性炎上，光明热烈，主升发、温暖万物。</p>
+    <div class="detail-grid">
+      <div class="detail-item"><div class="tag">方位</div><div class="val">南方</div></div>
+      <div class="detail-item"><div class="tag">季节</div><div class="val">夏</div></div>
+      <div class="detail-item"><div class="tag">颜色</div><div class="val">赤</div></div>
+      <div class="detail-item"><div class="tag">脏腑</div><div class="val">心、小肠</div></div>
+      <div class="detail-item"><div class="tag">情感</div><div class="val">喜</div></div>
+      <div class="detail-item"><div class="tag">五味</div><div class="val">苦</div></div>
+    </div>
+  </div>
+  <div class="element-detail-panel" id="detail-earth" data-el="earth">
+    <h3 class="detail-title" style="color:#8b6914">土</h3>
+    <p>土爰稼穑，谓土地能生长、收获五谷。土性敦厚，主承载、化育，为万物之母。</p>
+    <div class="detail-grid">
+      <div class="detail-item"><div class="tag">方位</div><div class="val">中央</div></div>
+      <div class="detail-item"><div class="tag">季节</div><div class="val">长夏</div></div>
+      <div class="detail-item"><div class="tag">颜色</div><div class="val">黄</div></div>
+      <div class="detail-item"><div class="tag">脏腑</div><div class="val">脾、胃</div></div>
+      <div class="detail-item"><div class="tag">情感</div><div class="val">思</div></div>
+      <div class="detail-item"><div class="tag">五味</div><div class="val">甘</div></div>
+    </div>
+  </div>
+  <div class="element-detail-panel" id="detail-metal" data-el="metal">
+    <h3 class="detail-title" style="color:#c9a94e">金</h3>
+    <p>金曰从革，谓金能变革、收敛。金性刚毅，主肃杀、清洁，象征坚毅与决断。</p>
+    <div class="detail-grid">
+      <div class="detail-item"><div class="tag">方位</div><div class="val">西方</div></div>
+      <div class="detail-item"><div class="tag">季节</div><div class="val">秋</div></div>
+      <div class="detail-item"><div class="tag">颜色</div><div class="val">白</div></div>
+      <div class="detail-item"><div class="tag">脏腑</div><div class="val">肺、大肠</div></div>
+      <div class="detail-item"><div class="tag">情感</div><div class="val">悲</div></div>
+      <div class="detail-item"><div class="tag">五味</div><div class="val">辛</div></div>
+    </div>
+  </div>
+  <div class="element-detail-panel" id="detail-water" data-el="water">
+    <h3 class="detail-title" style="color:#1e3a5f">水</h3>
+    <p>水曰润下，谓水能滋润、下行。水性聪慧，主潜藏、寒冷，象征深邃与包容。</p>
+    <div class="detail-grid">
+      <div class="detail-item"><div class="tag">方位</div><div class="val">北方</div></div>
+      <div class="detail-item"><div class="tag">季节</div><div class="val">冬</div></div>
+      <div class="detail-item"><div class="tag">颜色</div><div class="val">黑</div></div>
+      <div class="detail-item"><div class="tag">脏腑</div><div class="val">肾、膀胱</div></div>
+      <div class="detail-item"><div class="tag">情感</div><div class="val">恐</div></div>
+      <div class="detail-item"><div class="tag">五味</div><div class="val">咸</div></div>
+    </div>
+  </div>
+
+  <!-- Cycle tables -->
+  <div class="cycle-tables">
+    <div class="cycle-card">
+      <h3 class="generative">☗ 相生之序</h3>
+      <p style="text-align:center;color:rgba(26,26,26,0.5);font-size:0.85rem;margin-bottom:0.5rem">相生，意为滋生、促进、助长</p>
+      <div class="cycle-chain">
+        <span class="node" style="background:radial-gradient(circle,#4a7c3f,#2d5a25)" title="木">木</span>
+        <span class="arrow">→</span>
+        <span class="node" style="background:radial-gradient(circle,#c23a2e,#8b1a1a)" title="火">火</span>
+        <span class="arrow">→</span>
+        <span class="node" style="background:radial-gradient(circle,#8b6914,#5a4a0e)" title="土">土</span>
+        <span class="arrow">→</span>
+        <span class="node" style="background:radial-gradient(circle,#c9a94e,#8b7d34)" title="金">金</span>
+        <span class="arrow">→</span>
+        <span class="node" style="background:radial-gradient(circle,#1e3a5f,#0e1f33)" title="水">水</span>
+        <span class="arrow">→</span>
+        <span class="node" style="background:radial-gradient(circle,#4a7c3f,#2d5a25)" title="木">木</span>
+      </div>
+      <p style="text-align:center;color:rgba(26,26,26,0.45);font-size:0.8rem;margin-top:1rem;line-height:2">
+        木生火 &middot; 火生土 &middot; 土生金<br>
+        金生水 &middot; 水生木
+      </p>
+    </div>
+    <div class="cycle-card">
+      <h3 class="overcoming">☖ 相克之序</h3>
+      <p style="text-align:center;color:rgba(26,26,26,0.5);font-size:0.85rem;margin-bottom:0.5rem">相克，意为克制、抑制、约束</p>
+      <div class="cycle-chain">
+        <span class="node" style="background:radial-gradient(circle,#4a7c3f,#2d5a25)" title="木">木</span>
+        <span class="arrow">→</span>
+        <span class="node" style="background:radial-gradient(circle,#8b6914,#5a4a0e)" title="土">土</span>
+        <span class="arrow">→</span>
+        <span class="node" style="background:radial-gradient(circle,#1e3a5f,#0e1f33)" title="水">水</span>
+        <span class="arrow">→</span>
+        <span class="node" style="background:radial-gradient(circle,#c23a2e,#8b1a1a)" title="火">火</span>
+        <span class="arrow">→</span>
+        <span class="node" style="background:radial-gradient(circle,#c9a94e,#8b7d34)" title="金">金</span>
+        <span class="arrow">→</span>
+        <span class="node" style="background:radial-gradient(circle,#4a7c3f,#2d5a25)" title="木">木</span>
+      </div>
+      <p style="text-align:center;color:rgba(26,26,26,0.45);font-size:0.8rem;margin-top:1rem;line-height:2">
+        木克土 &middot; 土克水 &middot; 水克火<br>
+        火克金 &middot; 金克木
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Bagua Section -->
+<section class="section" id="bagua">
+  <div class="section-header">
+    <span class="section-label">Ba Gua</span>
+    <h2 class="section-title">八 卦</h2>
+    <p class="section-intro">
+      八卦由伏羲所创，每一卦由三条线（爻，yao）组成。阳爻━━━代表刚健有力，阴爻- -代表柔顺包容。八卦两两相重，可推演出六十四卦，包罗天地万象。
+    </p>
+  </div>
+
+  <div class="bagua-layout">
+    <div class="bagua-diagram">
+      <svg viewBox="0 0 380 380">
+        <!-- Bagua arrangement in a circle -->
+        <circle cx="190" cy="190" r="170" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+        <circle cx="190" cy="190" r="120" fill="none" stroke="#1a1a1a" stroke-width="1" opacity="0.3"/>
+        <circle cx="190" cy="190" r="70" fill="none" stroke="#1a1a1a" stroke-width="0.5" opacity="0.2"/>
+        <!-- Center -->
+        <circle cx="190" cy="190" r="25" fill="#1a1a1a"/>
+        <text x="190" y="197" text-anchor="middle" fill="var(--gold)" font-size="16" font-family="'Ma Shan Zheng', cursive">太极</text>
+        <!-- 8 trigrams around the circle -->
+        <!-- Each trigram at 45 degree intervals, with lines drawn radially -->
+        <!-- Qian (North) - all yang -->
+        <g transform="rotate(0, 190, 190)">
+          <line x1="190" y1="20" x2="190" y2="70" stroke="#1a1a1a" stroke-width="1" opacity="0.2"/>
+          <rect x="172" y="28" width="36" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="172" y="38" width="36" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="172" y="48" width="36" height="4" fill="#1a1a1a" rx="1"/>
+          <text x="190" y="15" text-anchor="middle" fill="#1a1a1a" font-size="10" font-family="'Ma Shan Zheng', cursive">乾</text>
+        </g>
+        <!-- Xun (Northeast) - yin above, yang below (wind) - actually: yang yang yin (top to bottom)
+             Wait, let me use the Later Heaven arrangement.
+             After (North), Xun (Southeast), Li (South), Kun (Southwest), Dui (West), Kan (Northwest), Gen (East), Zhen (East)
+             Let me use a simpler circular arrangement going clockwise from top:
+             Qian(N) -> Xun(NE) -> Li(S) -> Kun(SW) -> Dui(W) -> Kan(NW) -> Gen(E) -> Zhen(E)
+             Standard Later Heaven: Kan(N) Li(S) Zhen(E) Dui(W) ... but let me use a common arrangement.
+             Let me use: starting from top going clockwise: 乾 兑 离 震 巽 坎 艮 坤
+        -->
+        <!-- 乾 Qian - top (N) - all yang --- already done above -->
+        <!-- 兑 Dui (45) - top yin, mid yang, bot yang -->
+        <g transform="rotate(45, 190, 190)">
+          <rect x="172" y="28" width="14" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="194" y="28" width="14" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="172" y="38" width="36" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="172" y="48" width="36" height="4" fill="#1a1a1a" rx="1"/>
+          <text x="190" y="15" text-anchor="middle" fill="#1a1a1a" font-size="10" font-family="'Ma Shan Zheng', cursive">兑</text>
+        </g>
+        <!-- 离 Li (90) - yang, yin, yang -->
+        <g transform="rotate(90, 190, 190)">
+          <rect x="172" y="28" width="36" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="172" y="38" width="14" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="194" y="38" width="14" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="172" y="48" width="36" height="4" fill="#1a1a1a" rx="1"/>
+          <text x="190" y="15" text-anchor="middle" fill="#1a1a1a" font-size="10" font-family="'Ma Shan Zheng', cursive">离</text>
+        </g>
+        <!-- 震 Zhen (135) - yang, yin, yin -->
+        <g transform="rotate(135, 190, 190)">
+          <rect x="172" y="28" width="36" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="172" y="38" width="14" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="194" y="38" width="14" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="172" y="48" width="14" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="194" y="48" width="14" height="4" fill="#1a1a1a" rx="1"/>
+          <text x="190" y="15" text-anchor="middle" fill="#1a1a1a" font-size="10" font-family="'Ma Shan Zheng', cursive">震</text>
+        </g>
+        <!-- 巽 Xun (180) - yin, yang, yang -->
+        <g transform="rotate(180, 190, 190)">
+          <rect x="172" y="28" width="14" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="194" y="28" width="14" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="172" y="38" width="36" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="172" y="48" width="36" height="4" fill="#1a1a1a" rx="1"/>
+          <text x="190" y="15" text-anchor="middle" fill="#1a1a1a" font-size="10" font-family="'Ma Shan Zheng', cursive">巽</text>
+        </g>
+        <!-- 坎 Kan (225) - yang, yin, yang -->
+        <g transform="rotate(225, 190, 190)">
+          <rect x="172" y="28" width="36" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="172" y="38" width="14" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="194" y="38" width="14" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="172" y="48" width="36" height="4" fill="#1a1a1a" rx="1"/>
+          <text x="190" y="15" text-anchor="middle" fill="#1a1a1a" font-size="10" font-family="'Ma Shan Zheng', cursive">坎</text>
+        </g>
+        <!-- 艮 Gen (270) - yin, yang, yang -->
+        <g transform="rotate(270, 190, 190)">
+          <rect x="172" y="28" width="14" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="194" y="28" width="14" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="172" y="38" width="36" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="172" y="48" width="36" height="4" fill="#1a1a1a" rx="1"/>
+          <text x="190" y="15" text-anchor="middle" fill="#1a1a1a" font-size="10" font-family="'Ma Shan Zheng', cursive">艮</text>
+        </g>
+        <!-- 坤 Kun (315) - all yin -->
+        <g transform="rotate(315, 190, 190)">
+          <rect x="172" y="28" width="14" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="194" y="28" width="14" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="172" y="38" width="14" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="194" y="38" width="14" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="172" y="48" width="14" height="4" fill="#1a1a1a" rx="1"/>
+          <rect x="194" y="48" width="14" height="4" fill="#1a1a1a" rx="1"/>
+          <text x="190" y="15" text-anchor="middle" fill="#1a1a1a" font-size="10" font-family="'Ma Shan Zheng', cursive">坤</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="bagua-list">
+      <div class="bagua-item" onclick="showBagua('qian')" data-bagua="qian">
+        <div class="bagua-trigram">
+          <div class="line yang"></div>
+          <div class="line yang"></div>
+          <div class="line yang"></div>
+        </div>
+        <div class="bagua-info"><h4>乾 · 天</h4><p>刚健中正，自强不息</p></div>
+      </div>
+      <div class="bagua-item" onclick="showBagua('dui')" data-bagua="dui">
+        <div class="bagua-trigram">
+          <div class="line yin"></div>
+          <div class="line yang"></div>
+          <div class="line yang"></div>
+        </div>
+        <div class="bagua-info"><h4>兑 · 泽</h4><p>喜悦和乐，润物无声</p></div>
+      </div>
+      <div class="bagua-item" onclick="showBagua('li')" data-bagua="li">
+        <div class="bagua-trigram">
+          <div class="line yang"></div>
+          <div class="line yin"></div>
+          <div class="line yang"></div>
+        </div>
+        <div class="bagua-info"><h4>离 · 火</h4><p>光明炽盛，依附文明</p></div>
+      </div>
+      <div class="bagua-item" onclick="showBagua('zhen')" data-bagua="zhen">
+        <div class="bagua-trigram">
+          <div class="line yang"></div>
+          <div class="line yin"></div>
+          <div class="line yin"></div>
+        </div>
+        <div class="bagua-info"><h4>震 · 雷</h4><p>震动奋起，万物萌发</p></div>
+      </div>
+      <div class="bagua-item" onclick="showBagua('xun')" data-bagua="xun">
+        <div class="bagua-trigram">
+          <div class="line yin"></div>
+          <div class="line yang"></div>
+          <div class="line yang"></div>
+        </div>
+        <div class="bagua-info"><h4>巽 · 风</h4><p>柔顺渗透，无孔不入</p></div>
+      </div>
+      <div class="bagua-item" onclick="showBagua('kan')" data-bagua="kan">
+        <div class="bagua-trigram">
+          <div class="line yang"></div>
+          <div class="line yin"></div>
+          <div class="line yang"></div>
+        </div>
+        <div class="bagua-info"><h4>坎 · 水</h4><p>深邃险峻，润下潜行</p></div>
+      </div>
+      <div class="bagua-item" onclick="showBagua('gen')" data-bagua="gen">
+        <div class="bagua-trigram">
+          <div class="line yin"></div>
+          <div class="line yin"></div>
+          <div class="line yang"></div>
+        </div>
+        <div class="bagua-info"><h4>艮 · 山</h4><p>静定稳固，止于至善</p></div>
+      </div>
+      <div class="bagua-item" onclick="showBagua('kun')" data-bagua="kun">
+        <div class="bagua-trigram">
+          <div class="line yin"></div>
+          <div class="line yin"></div>
+          <div class="line yin"></div>
+        </div>
+        <div class="bagua-info"><h4>坤 · 地</h4><p>厚德载物，包容万物</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bagua detail panels -->
+  <div class="bagua-detail-panel" id="detail-qian">
+    <div class="bagua-detail-header">
+      <div class="trigram-big">
+        <div class="line yang"></div>
+        <div class="line yang"></div>
+        <div class="line yang"></div>
+      </div>
+      <div><h3>乾 · 天</h3><p class="desc">乾为天，八卦之首，象征刚健中正、自强不息的精神。</p></div>
+    </div>
+    <p>乾卦由三个阳爻组成，代表纯阳之体。天行健，君子以自强不息。乾象征天、君、父、首、马、玉、金、寒、冰、大赤、良马、老马、瘠马、地黄、木果等。其数为阳九，位居西北。</p>
+  </div>
+  <div class="bagua-detail-panel" id="detail-dui">
+    <div class="bagua-detail-header">
+      <div class="trigram-big">
+        <div class="line yin"></div>
+        <div class="line yang"></div>
+        <div class="line yang"></div>
+      </div>
+      <div><h3>兑 · 泽</h3><p class="desc">兑为泽，象征喜悦、和乐、滋润万物。</p></div>
+    </div>
+    <p>兑卦上爻为阴，下两爻为阳，象征泽水在上，润泽四方。丽泽兑，君子以朋友讲习。兑象征泽、少女、巫、口、舌、禽、毁折、附决、巫咸等。其性悦，其色白。</p>
+  </div>
+  <div class="bagua-detail-panel" id="detail-li">
+    <div class="bagua-detail-header">
+      <div class="trigram-big">
+        <div class="line yang"></div>
+        <div class="line yin"></div>
+        <div class="line yang"></div>
+      </div>
+      <div><h3>离 · 火</h3><p class="desc">离为火，象征光明、文明、依附与温暖。</p></div>
+    </div>
+    <p>离卦上下为阳，中间为阴，象征火外明内暗。日月丽乎天，百谷草木丽乎土。离象征火、日、电、目、中女、甲胄、干戈、甲胄、兵、大腹、干卦、鳖、蟹、蚖、蛤、蚌、蟹等。其色赤。</p>
+  </div>
+  <div class="bagua-detail-panel" id="detail-zhen">
+    <div class="bagua-detail-header">
+      <div class="trigram-big">
+        <div class="line yang"></div>
+        <div class="line yin"></div>
+        <div class="line yin"></div>
+      </div>
+      <div><h3>震 · 雷</h3><p class="desc">震为雷，象征震动、奋发、万物萌动。</p></div>
+    </div>
+    <p>震卦上两爻为阴，最下为阳，象征雷从地下奋出。洊雷震，君子以恐惧修省。震象征雷、长男、龙、草芥、萑苇、善鸣、馵足、作足、的颡、马、多眚、决躁、苍筤竹、萑苇等。其色苍。</p>
+  </div>
+  <div class="bagua-detail-panel" id="detail-xun">
+    <div class="bagua-detail-header">
+      <div class="trigram-big">
+        <div class="line yin"></div>
+        <div class="line yang"></div>
+        <div class="line yang"></div>
+      </div>
+      <div><h3>巽 · 风</h3><p class="desc">巽为风，象征柔顺、渗透、无所不至。</p></div>
+    </div>
+    <p>巽卦上爻为阴，下两爻为阳，象征风自上方吹下。随风巽，君子以申命行事。巽象征风、长女、木、木、绳直、工、白、长、高、进退、不果、臭、多白眼、为鸡、为牛、为鸡、为绳直等。其色白。</p>
+  </div>
+  <div class="bagua-detail-panel" id="detail-kan">
+    <div class="bagua-detail-header">
+      <div class="trigram-big">
+        <div class="line yang"></div>
+        <div class="line yin"></div>
+        <div class="line yang"></div>
+      </div>
+      <div><h3>坎 · 水</h3><p class="desc">坎为水，象征险峻、深邃、潜行不息。</p></div>
+    </div>
+    <p>坎卦上下为阳，中间为阴，象征水外刚内柔。习坎，君子以常德行，习教事。坎象征水、险、陷、中男、沟渎、猪、多凶、弓轮、弓矢、水、血、狐、丛棘、豕、膏、泣、蒺藜等。其色黑。</p>
+  </div>
+  <div class="bagua-detail-panel" id="detail-gen">
+    <div class="bagua-detail-header">
+      <div class="trigram-big">
+        <div class="line yin"></div>
+        <div class="line yin"></div>
+        <div class="line yang"></div>
+      </div>
+      <div><h3>艮 · 山</h3><p class="desc">艮为山，象征静止、稳固、安泰。</p></div>
+    </div>
+    <p>艮卦上两爻为阴，最下为阳，象征山自地上隆起。兼山艮，君子以思不出其位。艮象征山、少男、径、门庭、鼠、犬、指、瓜、果、爪、牙、背、肤、庭、黔嬴、牛、剽、卦、狐、黔嬴等。其色白。</p>
+  </div>
+  <div class="bagua-detail-panel" id="detail-kun">
+    <div class="bagua-detail-header">
+      <div class="trigram-big">
+        <div class="line yin"></div>
+        <div class="line yin"></div>
+        <div class="line yin"></div>
+      </div>
+      <div><h3>坤 · 地</h3><p class="desc">坤为地，象征厚德载物、包容一切。</p></div>
+    </div>
+    <p>坤卦由三个阴爻组成，代表纯阴之体。地势坤，君子以厚德载物。坤象征地、母、布、釜、吝啬、均、子母牛、众、柔、均、顺、契、西南、朋、东、北、米、釜、地、均、平、柄、安、釜、子母牛、众、柔、均等。其色黄。</p>
+  </div>
+</section>
+
+<!-- Sixiang Section -->
+<section class="section" id="sixiang">
+  <div class="section-header">
+    <span class="section-label">Si Xiang</span>
+    <h2 class="section-title">四 象</h2>
+    <p class="section-intro">
+      四象由八卦两两相重而来，分别为青龙、白虎、朱雀、玄武，代表四方、四季与四时之德。
+    </p>
+  </div>
+  <div class="sixiang-grid">
+    <div class="sixiang-card">
+      <span class="sixiang-icon">🐉</span>
+      <h4>青龙</h4>
+      <p>东方七宿<br>属木 · 春季<br>象征生机与希望<br>仁德之象</p>
+    </div>
+    <div class="sixiang-card">
+      <span class="sixiang-icon">🐯</span>
+      <h4>白虎</h4>
+      <p>西方七宿<br>属金 · 秋季<br>象征威严与力量<br>义德之象</p>
+    </div>
+    <div class="sixiang-card">
+      <span class="sixiang-icon">🔥</span>
+      <h4>朱雀</h4>
+      <p>南方七宿<br>属火 · 夏季<br>象征光明与繁荣<br>礼德之象</p>
+    </div>
+    <div class="sixiang-card">
+      <span class="sixiang-icon">🐍</span>
+      <h4>玄武</h4>
+      <p>北方七宿<br>属水 · 冬季<br>象征深邃与智慧<br>智德之象</p>
+    </div>
+  </div>
+</section>
+
+<!-- Correspondence Table -->
+<section class="section" id="correspondence">
+  <div class="section-header">
+    <span class="section-label">Correspondences</span>
+    <h2 class="section-title">万 物 类 象</h2>
+    <p class="section-intro">
+      五行八卦与天地万物相互对应，构成了一个完整的宇宙模型。下表展示了五行与各事物的对应关系。
+    </p>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="correspondence-table">
+      <thead>
+        <tr><th>五行</th><th>方位</th><th>季节</th><th>颜色</th><th>脏腑</th><th>五季</th><th>五味</th><th>五志</th><th>五德</th></tr>
+      </thead>
+      <tbody>
+        <tr><td style="color:#4a7c3f">木</td><td>东</td><td>春</td><td>青</td><td>肝</td><td>春</td><td>酸</td><td>怒</td><td>仁</td></tr>
+        <tr><td style="color:#c23a2e">火</td><td>南</td><td>夏</td><td>赤</td><td>心</td><td>夏</td><td>苦</td><td>喜</td><td>礼</td></tr>
+        <tr><td style="color:#8b6914">土</td><td>中</td><td>长夏</td><td>黄</td><td>脾</td><td>季夏</td><td>甘</td><td>思</td><td>信</td></tr>
+        <tr><td style="color:#c9a94e">金</td><td>西</td><td>秋</td><td>白</td><td>肺</td><td>秋</td><td>辛</td><td>悲</td><td>义</td></tr>
+        <tr><td style="color:#1e3a5f">水</td><td>北</td><td>冬</td><td>黑</td><td>肾</td><td>冬</td><td>咸</td><td>恐</td><td>智</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-ornament">☯</div>
+  <p>太 极 生 两 仪 · 两 仪 生 四 象 · 四 象 生 八 卦 · 八 卦 定 吉 凶 · 吉 凶 生 大 业</p>
+  <p style="margin-top:1rem;opacity:0.5">《周易 · 系辞》</p>
+</footer>
+
+<script>
+// === Scroll animations ===
+const sections = document.querySelectorAll('.section');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+sections.forEach(s => observer.observe(s));
+
+// === Nav scroll effect ===
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// === Active nav link ===
+const navLinks = document.querySelectorAll('.nav-links a');
+const sectionIds = ['hero','wuxing','bagua','sixiang','correspondence'];
+window.addEventListener('scroll', () => {
+  let current = '';
+  sectionIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 200) current = id;
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+});
+
+// === Five Element detail ===
+let activeElement = null;
+function showElement(name) {
+  if (activeElement === name) { hideAllElements(); return; }
+  hideAllElements();
+  const panel = document.getElementById('detail-' + name);
+  if (panel) { panel.classList.add('active'); activeElement = name; }
+}
+function hideAllElements() {
+  document.querySelectorAll('.element-detail-panel').forEach(p => p.classList.remove('active'));
+  activeElement = null;
+}
+
+// === Bagua detail ===
+let activeBagua = null;
+function showBagua(name) {
+  if (activeBagua === name) { hideAllBagua(); return; }
+  hideAllBagua();
+  // Highlight item
+  document.querySelectorAll('.bagua-item').forEach(item => {
+    item.classList.toggle('active', item.dataset.bagua === name);
+  });
+  const panel = document.getElementById('detail-' + name);
+  if (panel) { panel.classList.add('active'); activeBagua = name; }
+}
+function hideAllBagua() {
+  document.querySelectorAll('.bagua-detail-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.bagua-item').forEach(i => i.classList.remove('active'));
+  activeBagua = null;
+}
+
+// === Smooth scroll for nav links ===
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Close mobile nav
+      document.querySelector('.nav-links').classList.remove('open');
+    }
+  });
+});
+</script>
+</body>
+</html>
